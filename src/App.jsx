@@ -36,10 +36,10 @@ import PerspectiveChat from "./pages/Chat/PerspectiveChat.jsx";
 import ChatSatisfaction from "./pages/Chat/ChatSatisfaction.jsx";
 
 /* ---------- CONTROL BRANCH ---------- */
-import ControlLikertPre from "./pages/control/ControlLikertPre.jsx";
-import ControlComments from "./pages/control/ControlComments.jsx";
-import ControlLikertPost from "./pages/control/ControlLikertPost.jsx";
-import ControlTaskSatisfaction from "./pages/control/ControlTaskSatisfaction.jsx";
+import ControlLikertPre from "./pages/Control/ControlLikertPre.jsx";
+import ControlComments from "./pages/Control/ControlComments.jsx";
+import ControlLikertPost from "./pages/Control/ControlLikertPost.jsx";
+import ControlTaskSatisfaction from "./pages/Control/ControlTaskSatisfaction.jsx";
 
 /* ---------- POST / DEMOGRAPHICS ---------- */
 import PostOpenness from "./pages/post/PostOpeness.jsx";
