@@ -31,9 +31,9 @@ import DeliberationIntro from "./pages/pre/DeliberationIntro.jsx";
 
 /* ---------- CHAT BRANCH ---------- */
 import Chat from "./pages/Chat.jsx"; // redirector → /chat/socratic | /chat/perspective | /control/...
-import SocraticChat from "./pages/chat/SocraticChat.jsx";
-import PerspectiveChat from "./pages/chat/PerspectiveChat.jsx";
-import ChatSatisfaction from "./pages/chat/ChatSatisfaction.jsx";
+import SocraticChat from "./pages/Chat/SocraticChat.jsx";
+import PerspectiveChat from "./pages/Chat/PerspectiveChat.jsx";
+import ChatSatisfaction from "./pages/Chat/ChatSatisfaction.jsx";
 
 /* ---------- CONTROL BRANCH ---------- */
 import ControlLikertPre from "./pages/control/ControlLikertPre.jsx";
