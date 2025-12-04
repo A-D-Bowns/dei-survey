@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useSurvey } from "../../store/surveyStore.jsx";
 
@@ -25,11 +25,6 @@ export default function Welcome() {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const condition = useMemo(
-    () => answers.condition || localStorage.getItem("condition"),
-    [answers.condition]
-  );
 
   return (
     <div className="min-h-screen bg-neutral-100/70">
@@ -65,10 +60,9 @@ export default function Welcome() {
             </ul>
           </section>
 
-          {/* Randomization notice (subtle dev preview) */}
+          {/* Randomization notice */}
           <div className="mt-6 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-900">
             For research purposes, participants are assigned to different interaction types at random.
-            <span className="ml-1 text-blue-700">(dev: assigned <code>{condition || "…"}</code>)</span>
           </div>
 
           {/* Begin button */}
