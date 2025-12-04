@@ -2,7 +2,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSurvey } from "../../store/surveyStore.jsx";
-import { saveSurvey } from "../../lib/api";
+import { saveSurvey, chatTurn } from "../../lib/api";
 import { getOrCreatePID } from "../../lib/identity";
 import { getOrAssignCondition } from "../../lib/condition";
 import DebugBadge from "../../components/DebugBadge.jsx";
@@ -85,13 +85,7 @@ export default function SocraticChat() {
         })),
       };
 
-      const res = await fetch("http://127.0.0.1:8000/chat/llm", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      const data = await res.json();
+      const data = await chatTurn(payload);
       const replyText =
         data && data.reply
           ? data.reply
