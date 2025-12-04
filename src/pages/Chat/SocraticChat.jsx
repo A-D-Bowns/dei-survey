@@ -8,8 +8,8 @@ import { getOrAssignCondition } from "../../lib/condition";
 import DebugBadge from "../../components/DebugBadge.jsx";
 
 function buildIntroFromPre(answers) {
-  const stance = answers.stance;                 // P1
-  const stanceText = answers.pre_stance_text;    // P2 open text (name may differ!)
+  const stance = answers.stance;
+  const stanceText = answers.pre_stance_text;
   const warmIn = answers.warm_in;
   const warmOut = answers.warm_out;
 
@@ -30,7 +30,7 @@ function buildIntroFromPre(answers) {
 
   if (!bits.length) {
     return (
-      "Let’s talk a bit more about how you see DEI in the workplace. " +
+      "Let's talk a bit more about how you see DEI in the workplace. " +
       "Feel free to restate your view in your own words."
     );
   }
@@ -38,7 +38,7 @@ function buildIntroFromPre(answers) {
   return (
     "Earlier in the survey, " +
     bits.join(" ") +
-    " I’d like to explore that with you using short, reflective questions."
+    " I'd like to explore that with you using short, reflective questions."
   );
 }
 
@@ -56,6 +56,7 @@ export default function SocraticChat() {
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [continuing, setContinuing] = useState(false);
 
   useEffect(() => {
     setAnswer("participant_id", pid);
@@ -107,7 +108,7 @@ export default function SocraticChat() {
           id: Date.now() + 1,
           role: "assistant",
           content:
-            "I’m having trouble reaching the chat service. You can still reflect in your own words here.",
+            "I'm having trouble reaching the chat service. You can still reflect in your own words here.",
         },
       ]);
     } finally {
@@ -115,19 +116,24 @@ export default function SocraticChat() {
     }
   };
 
-  const handleContinue = async () => {
-    try {
-      await saveSurvey({
-        participant_id: pid,
-        phase: "chat",
-        condition,
-        answers: { chat_transcript: messages },
-        meta: { mode: "socratic" },
-      });
-    } catch (e) {
-      console.error("save chat error", e);
-    }
-    // go to “chat changed my mind” page
+  const handleContinue = () => {
+    if (continuing) return;
+    setContinuing(true);
+    
+    // Store transcript in survey state for final save
+    setAnswer("chat_transcript", messages);
+    setAnswer("chat_mode", "socratic");
+    
+    // Save in background (don't wait)
+    saveSurvey({
+      participant_id: pid,
+      phase: "chat",
+      condition,
+      answers: { chat_transcript: messages },
+      meta: { mode: "socratic" },
+    }).catch((e) => console.error("background save error", e));
+    
+    // Navigate immediately
     nav("/chat/satisfaction");
   };
 
@@ -202,9 +208,10 @@ export default function SocraticChat() {
             </p>
             <button
               onClick={handleContinue}
-              className="rounded-xl bg-emerald-600 px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-emerald-700"
+              disabled={continuing}
+              className="rounded-xl bg-emerald-600 px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-emerald-700 disabled:opacity-50"
             >
-              Continue to next questions
+              {continuing ? "Loading..." : "Continue to next questions"}
             </button>
           </div>
         </div>
